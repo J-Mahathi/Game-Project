@@ -1,13 +1,18 @@
+// initial stages
 let gameSeq=[];
 let userSeq=[];
 
 let btns=["green","yellow","red","blue"];
 
+// initial stages
 let started=false;
 let level=0;
 
+let highestScore = 0; // to get the highest score till date
+
 let h2=document.querySelector("h2");
 
+// start the game
 document.addEventListener("keypress",function(){
     if(started == false){
         console.log("game is started");
@@ -17,6 +22,7 @@ document.addEventListener("keypress",function(){
     }
 });
 
+// white flash of the buttons
 function btnFlash(btn){
     btn.classList.add("flash");
     setTimeout(function(){
@@ -24,23 +30,22 @@ function btnFlash(btn){
     }, 500);
 }
 
+// increment the level
 function levelUp(){
     userSeq=[];
     level++;
     h2.innerText=`Level ${level}`;
 
-    // random btn choose
+    // random btn choose 
     let randomIndex=Math.floor(Math.random() * 4);
     let randomColor=btns[randomIndex];
-    let randomBtn=document.querySelector(`.${randomColor}`); // .${randomcolor} ante . emo class and randomcolor variable kabatti expression lo rasam .ah class name html file lo icchinattu
-    // console.log(randomIndex);
-    // console.log(randomColor);
-    // console.log(randomBtn);
-    gameSeq.push(randomColor);
+    let randomBtn=document.querySelector(`.${randomColor}`);
     console.log(gameSeq);
     btnFlash(randomBtn);
 }
 
+// comparing userSeq and gameSeq
+// generating highest score
 function checkAns(index){
     // console.log("current level : ", level);
     
@@ -49,7 +54,11 @@ function checkAns(index){
        setTimeout(levelUp,1000);
        }
     }else{
-        h2.innerHTML=`Game Over! Your score was <b>${level}</b> <br> Press any key to start.`;
+        if(level > highestScore){
+            highestScore = level;
+        }
+        h2.innerHTML=`Game Over! Your score was <b>${level}</b> <br>
+                      <u>Your Highest Score is ${highestScore}</u>.<br> Press any key to start.`;
         document.querySelector("body").style.backgroundColor="red";
         setTimeout(function(){
             document.querySelector("body").style.backgroundColor="white";
@@ -74,6 +83,8 @@ for(btn of allBtns){
     btn.addEventListener("click",btnPress);
 }
 
+
+// reseting the game
 function reset(){
     started=false;
     gameSeq=[];
